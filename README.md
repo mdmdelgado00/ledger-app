@@ -8,12 +8,4 @@ to mobile and more advanced analytics in future phases.
 
 - React
 - TypeScript
-- (Vite / CRA / Next.js – fill in what you chose)
 - ESLint + Prettier
-
-## Getting Started
-
-```bash
-npm install
-npm run dev
-```
