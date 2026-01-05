@@ -32,7 +32,8 @@
     "paths": {
       "@components/*": ["components/*"],
       "@features/*": ["features/*"],
-      "@lib/*": ["lib/*"]
+      "@lib/*": ["lib/*"],
+      "@/*": ["*"]
     }
   },
   "include": ["src"]
