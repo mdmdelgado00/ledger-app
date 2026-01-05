@@ -1,10 +1,10 @@
 import "../styles/general.css";
-import { Header } from "./layout/header.tsx";
+import { GeneralLayout } from "./layout/generalLayout";
 
 function App() {
   return (
     <>
-      <Header />
+      <GeneralLayout></GeneralLayout>
     </>
   );
 }
