@@ -4,7 +4,9 @@ import { GeneralLayout } from "./layout/generalLayout";
 function App() {
   return (
     <>
-      <GeneralLayout></GeneralLayout>
+      <GeneralLayout>
+        <div>Your app content goes here</div>
+      </GeneralLayout>
     </>
   );
 }
