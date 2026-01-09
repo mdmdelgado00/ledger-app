@@ -48,7 +48,7 @@ export function Wallet({
 
       {/* Peeking cards behind wallet */}
       <div className="absolute left-[18.5%] bottom-[32%] w-[300px] h-[170px] md:w-[330px] md:h-[180px] z-10">
-        <div className="absolute inset-0 rounded-2xl  bg-primary/55 rotate-[-10deg] translate-x-2" />
+        <div className="absolute inset-0 rounded-2xl  bg-primary/65 rotate-[-6deg] translate-x-4" />
         {placeholder === "signup" ? (
           <SignUpCard
             inWallet

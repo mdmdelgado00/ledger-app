@@ -27,16 +27,11 @@ export default function AuthPage() {
         />
       </div>
       <div className="flex-1 relative flex items-center justify-center">
-        {showLogin ? <LoginCard /> : <SignUpCard />}
-        <div>
-          <button
-            className="px-4 py-2 bg-primary text-white rounded-lg"
-            onClick={() => requestToggle()}
-            disabled={animateCard}
-          >
-            {showLogin ? "Sign In" : "Hide Card"}
-          </button>
-        </div>
+        {showLogin ? (
+          <LoginCard requestToggle={requestToggle} />
+        ) : (
+          <SignUpCard requestToggle={requestToggle} />
+        )}
       </div>
     </main>
   );
