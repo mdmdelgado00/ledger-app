@@ -1,10 +1,11 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { GeneralLayout } from "./layout/generalLayout";
+import AuthPage from "./pages/authPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <GeneralLayout />,
+    element: /*<GeneralLayout />*/ <AuthPage />,
     children: [
       { index: true, element: <Navigate to="/dashboard" replace /> },
       { path: "dashboard", element: <div>Dashboard Page</div> },
