@@ -10,11 +10,14 @@ import { Button } from "@components/ui/button";
 import { Checkbox } from "@components/ui/checkbox";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
+import { useAuth } from "@features/auth/authProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { supabase } from "@lib/dbConnection";
 import { CheckCircle2, Eye, EyeOff } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 export function SignUpCard({
@@ -35,13 +38,23 @@ export function SignUpCard({
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const { signUp } = useAuth();
+  const navigate = useNavigate();
 
-  const SignUpSchema = z.object({
-    fullName: z.string().min(2),
-    email: z.email(),
-    password: z.string().min(6),
-    confirmPassword: z.string().min(6),
-  });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
+
+  const SignUpSchema = z
+    .object({
+      fullName: z.string().min(2),
+      email: z.email(),
+      password: z.string().min(6),
+      confirmPassword: z.string().min(6),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: "Passwords do not match",
+    });
 
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
@@ -53,8 +66,34 @@ export function SignUpCard({
     },
   });
 
-  function onSubmit(data: z.infer<typeof SignUpSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof SignUpSchema>) {
+    if (!agreeToTerms) return;
+    setSubmitError(null);
+    setSubmitSuccess(null);
+    setSubmitting(true);
+
+    try {
+      await signUp(data.email, data.password);
+      const { data: sessionData } = await supabase.auth.getSession();
+      const user = sessionData.session?.user ?? null;
+
+      if (user) {
+        const { error } = await supabase
+          .from("profiles")
+          .update({ display_name: data.fullName })
+          .eq("id", user.id);
+
+        if (error) console.warn("Profile update failed:", error.message);
+
+        return;
+      }
+
+      setSubmitSuccess("Account created successfully!");
+    } catch (error: any) {
+      setSubmitError(error.message || "An error occurred during sign up.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   const getPasswordStrength = (password: string) => {
@@ -285,10 +324,16 @@ export function SignUpCard({
               <Button
                 type="submit"
                 className="w-full mb-4 mt-2"
-                disabled={!agreeToTerms}
+                disabled={!agreeToTerms || submitting}
               >
-                Sign Up
+                {submitting ? "Signing Up..." : "Sign Up"}
               </Button>
+              {submitError && (
+                <p className="text-sm text-red-600">{submitError}</p>
+              )}
+              {submitSuccess && (
+                <p className="text-sm text-green-600">{submitSuccess}</p>
+              )}
             </form>
           </Form>
           <div className="relative my-6">
