@@ -2,6 +2,7 @@ import { AuthGate } from "@features/auth/AuthGate";
 import { RequireAuth } from "@features/auth/RequireAuth";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { GeneralLayout } from "./layout/generalLayout";
+import { AuthCallbackPage } from "./pages/authCallback";
 import AuthPage from "./pages/authPage";
 
 export const router = createBrowserRouter([
@@ -12,6 +13,10 @@ export const router = createBrowserRouter([
         <AuthPage />
       </AuthGate>
     ),
+  },
+  {
+    path: "/auth/callback",
+    element: <AuthCallbackPage />,
   },
   {
     path: "/",

@@ -1,4 +1,4 @@
-import { useAuth } from "@features/auth/AuthProvider";
+import { useAuth } from "@features/auth/authProvider";
 import { Navigate } from "react-router-dom";
 
 export function AuthGate({ children }: { children: React.ReactNode }) {
