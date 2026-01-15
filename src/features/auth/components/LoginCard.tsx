@@ -9,11 +9,13 @@ import {
 import { Button } from "@components/ui/button";
 import { Checkbox } from "@components/ui/checkbox";
 import { Input } from "@components/ui/input";
+import { useAuth } from "@features/auth/authProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 export function LoginCard({
@@ -29,6 +31,11 @@ export function LoginCard({
 }) {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
+
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const className = inWallet
     ? "absolute inset-0 rounded-2xl bg-primary translate-x-6"
@@ -47,8 +54,23 @@ export function LoginCard({
     },
   });
 
-  function onSubmit(data: z.infer<typeof LoginSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof LoginSchema>) {
+    setSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      await signIn(data.email, data.password);
+      navigate("/dashboard", { replace: true });
+    } catch (err: any) {
+      const msg = err?.message ?? "Login failed";
+      if (msg.toLowerCase().includes("confirm")) {
+        setSubmitError("Please confirm your email first (check your inbox).");
+      } else {
+        setSubmitError(msg);
+      }
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -138,9 +160,18 @@ export function LoginCard({
                   Forgot password?
                 </a>
               </div>
-              <Button type="submit" className="w-full mb-4 mt-2">
-                Login
+              <Button
+                type="submit"
+                className="w-full mb-4 mt-2"
+                disabled={submitting}
+              >
+                {submitting ? "Signing in..." : "Sign In"}
               </Button>
+              {submitError && (
+                <p className="text-sm text-red-600 text-center">
+                  {submitError}
+                </p>
+              )}
             </form>
           </Form>
           <div className="relative my-6">
