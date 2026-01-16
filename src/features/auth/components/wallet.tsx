@@ -14,9 +14,6 @@ export function Wallet({
   const year = new Date().getFullYear();
   return (
     <div className={cn("relative w-full max-w-[560px] h-[420px] md:h-[520px]")}>
-      {/* Subtle background panel */}
-      <div className="absolute inset-0 rounded-3xl border bg-muted/15" />
-
       {/* Very subtle grid texture */}
       <div
         className="absolute inset-0 rounded-3xl opacity-60 pointer-events-none"

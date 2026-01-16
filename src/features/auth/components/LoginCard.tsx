@@ -11,7 +11,7 @@ import { Checkbox } from "@components/ui/checkbox";
 import { Input } from "@components/ui/input";
 import { useAuth } from "@features/auth/authProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Wallet } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -119,7 +119,18 @@ export function LoginCard({
         </>
       ) : (
         <>
-          <header className="mb-8">
+          <header className="mb-8 text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-2xl shadow-lg mb-4">
+              <Wallet className="w-8 h-8 text-white" />
+            </div>
+            <div className="mb-4 ">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text pb-2 text-transparent ">
+                Ledger
+              </h1>
+              <p className="text-xs text-slate-400 tracking-widest uppercase">
+                Financial Management
+              </p>
+            </div>
             <h1 className="text-3xl mb-2">Welcome back !!</h1>
             <p className="text-muted-foreground">
               Please enter your details to sign in

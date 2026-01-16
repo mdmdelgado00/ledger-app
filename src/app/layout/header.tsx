@@ -1,10 +1,8 @@
-import { useAuth } from "@features/auth/authProvider";
-import { Bell, User } from "lucide-react";
+import { Bell } from "lucide-react";
 import { AddButton } from "./components/addButton";
 import { ProfileButton } from "./components/profileButton";
 
 export function Header() {
-  const { signOut } = useAuth();
   return (
     <header className="h-16 flex justify-between items-center px-6 bg-surface border-b border-border sticky top-0 z-40 backdrop-blur bg-surface/95">
       <h1 className="font-semibold text-lg text-foreground">Ledger</h1>
