@@ -13,11 +13,10 @@ import { Label } from "@components/ui/label";
 import { useAuth } from "@features/auth/authProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@lib/dbConnection";
-import { CheckCircle2, Eye, EyeOff } from "lucide-react";
+import { CheckCircle2, Eye, EyeOff, Wallet } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 export function SignUpCard({
@@ -32,15 +31,14 @@ export function SignUpCard({
   requestToggle?: () => void;
 }) {
   const className = inWallet
-    ? "absolute inset-0 rounded-2xl  bg-primary/55 rotate-[-10deg] translate-x-2"
+    ? "absolute left-3 right-3 h-[200px] bg-gradient-to-br from-teal-400 to-teal-500 rounded-2xl shadow-xl translate-y-10 rotate-0"
     : "min-w-[500px] rounded-2xl bg-muted shadow-xl p-8 border border-slate-200";
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const { signUp } = useAuth();
-  const navigate = useNavigate();
-
+  const year = new Date().getFullYear();
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
@@ -136,18 +134,61 @@ export function SignUpCard({
         inWallet
           ? {
               y: animate ? -200 : 0,
-              rotate: animate ? [0, 0, 10, 10] : 0,
-              x: animate ? 50 : 0,
             }
-          : { y: 0, rotate: 0 }
+          : { y: 0 }
       }
       onAnimationComplete={() => {
         if (inWallet && animate) onAnimationEnd?.();
       }}
     >
-      {inWallet ? null : (
+      {inWallet ? (
         <>
-          <header className="mb-8">
+          <div className="absolute inset-0 bg-gradient-to-tr from-white/0 to-white/40 rounded-2xl" />
+          <div className="relative h-full p-6 flex flex-col justify-between">
+            <div className="flex justify-between items-start">
+              <div className="flex gap-2">
+                <div className="w-10 h-8 bg-amber-400 rounded-md shadow-md" />
+              </div>
+              <div className="text-white/90 text-xs font-medium tracking-wider">
+                LEDGER
+              </div>
+            </div>
+
+            <div>
+              <div className="text-white/90 font-mono text-lg tracking-[0.2em] mb-3">
+                **** **** **** {year}
+              </div>
+              <div className="flex justify-between items-end">
+                <div>
+                  <div className="text-white/60 text-[10px] mb-1">
+                    CARD HOLDER
+                  </div>
+                  <div className="text-white/90 text-sm tracking-wide">
+                    New User
+                  </div>
+                </div>
+                <div>
+                  <div className="text-white/60 text-[10px] mb-1">EXPIRES</div>
+                  <div className="text-white/90 text-sm">12/28</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <header className="mb-8 text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-2xl shadow-lg mb-4">
+              <Wallet className="w-8 h-8 text-white" />
+            </div>
+            <div className="mb-4 ">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text pb-2 text-transparent ">
+                Ledger
+              </h1>
+              <p className="text-xs text-slate-400 tracking-widest uppercase">
+                Financial Management
+              </p>
+            </div>
             <h1 className="text-3xl mb-2">Create an account</h1>
             <p className="text-muted-foreground">
               Please enter your details to sign up

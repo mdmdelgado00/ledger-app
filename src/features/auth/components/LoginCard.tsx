@@ -11,7 +11,7 @@ import { Checkbox } from "@components/ui/checkbox";
 import { Input } from "@components/ui/input";
 import { useAuth } from "@features/auth/authProvider";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Wallet } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -33,12 +33,13 @@ export function LoginCard({
   const [rememberMe, setRememberMe] = useState(false);
   const { signIn } = useAuth();
   const navigate = useNavigate();
+  const year = new Date().getFullYear();
 
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const className = inWallet
-    ? "absolute inset-0 rounded-2xl bg-primary translate-x-6"
+    ? "absolute left-1 right-1 h-[200px] bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-2xl shadow-2xl translate-y-10"
     : "min-w-[500px] rounded-2xl bg-muted shadow-xl p-8 border border-slate-200";
 
   const LoginSchema = z.object({
@@ -82,9 +83,54 @@ export function LoginCard({
         if (inWallet && animate) onAnimationEnd?.();
       }}
     >
-      {inWallet ? null : (
+      {inWallet ? (
         <>
-          <header className="mb-8">
+          <div className="absolute inset-0 bg-gradient-to-tr from-white/0 to-white/40 rounded-2xl" />
+          <div className="relative h-full p-6 flex flex-col justify-between">
+            <div className="flex justify-between items-start">
+              <div className="flex gap-2">
+                <div className="w-10 h-8 bg-amber-400 rounded-md shadow-md" />
+              </div>
+              <div className="text-white/90 text-xs font-medium tracking-wider">
+                LEDGER
+              </div>
+            </div>
+
+            <div>
+              <div className="text-white/90 font-mono text-lg tracking-[0.2em] mb-3">
+                **** **** **** {year}
+              </div>
+              <div className="flex justify-between items-end">
+                <div>
+                  <div className="text-white/60 text-[10px] mb-1">
+                    CARD HOLDER
+                  </div>
+                  <div className="text-white/90 text-sm tracking-wide">
+                    Welcome Back
+                  </div>
+                </div>
+                <div>
+                  <div className="text-white/60 text-[10px] mb-1">EXPIRES</div>
+                  <div className="text-white/90 text-sm">12/28</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <header className="mb-8 text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-2xl shadow-lg mb-4">
+              <Wallet className="w-8 h-8 text-white" />
+            </div>
+            <div className="mb-4 ">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text pb-2 text-transparent ">
+                Ledger
+              </h1>
+              <p className="text-xs text-slate-400 tracking-widest uppercase">
+                Financial Management
+              </p>
+            </div>
             <h1 className="text-3xl mb-2">Welcome back !!</h1>
             <p className="text-muted-foreground">
               Please enter your details to sign in
