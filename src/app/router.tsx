@@ -1,5 +1,6 @@
 import { AuthGate } from "@features/auth/AuthGate";
 import { RequireAuth } from "@features/auth/RequireAuth";
+import TransactionPage from "@features/transactions/pages/transactionPage";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { GeneralLayout } from "./layout/generalLayout";
 import { AuthCallbackPage } from "./pages/authCallback";
@@ -27,7 +28,7 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <Navigate to="/dashboard" replace /> },
           { path: "dashboard", element: <div>Dashboard Page</div> },
-          { path: "transactions", element: <div>Transactions Page</div> },
+          { path: "transactions", element: <TransactionPage /> },
           { path: "categories", element: <div>Category Page</div> },
           { path: "budgets", element: <div>Budgets Page</div> },
           { path: "reports", element: <div>Reports Page</div> },
