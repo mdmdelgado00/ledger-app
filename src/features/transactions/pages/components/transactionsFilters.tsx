@@ -2,6 +2,7 @@ import type { TransactionFilterState } from "@features/transactions/types";
 import { dummyCategories } from "@features/transactions/types";
 import CategoriesFilter from "./categoriesFilter";
 import { MonthPicker } from "./monthPicker";
+import SearchFilter from "./searchFilter";
 
 export function TransactionTopFilters({
   filters,
@@ -22,6 +23,12 @@ export function TransactionTopFilters({
           setFilters((prev) => ({ ...prev, categoryIds }))
         }
         categories={dummyCategories}
+      />
+      <SearchFilter
+        value={filters.searchQuery || ""}
+        onChange={(value) => {
+          setFilters((prev) => ({ ...prev, searchQuery: value }));
+        }}
       />
     </div>
   );

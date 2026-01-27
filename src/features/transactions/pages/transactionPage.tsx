@@ -7,6 +7,7 @@ export default function TransactionPage() {
   const [filters, setFilters] = useState<TransactionFilterState>({
     month: monthKey(new Date()),
     categoryIds: [],
+    searchQuery: "",
   });
   return (
     <>
@@ -44,6 +45,7 @@ export default function TransactionPage() {
           )}
         </div>
         {filters.month}
+        {filters.searchQuery}
       </div>
     </>
   );
