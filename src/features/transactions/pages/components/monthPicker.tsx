@@ -69,6 +69,7 @@ export function MonthPicker({
           onMonthChange(monthKey(addMonths(selectedMonthDate, -1)))
         }
         aria-label="Previous Month"
+        className="cursor-pointer"
       >
         <ChevronLeft className="size-4" />
       </Button>
@@ -77,7 +78,7 @@ export function MonthPicker({
           <Button
             type="button"
             variant="outline"
-            className="min-w-30 justify-start gap-2"
+            className="min-w-30 justify-start gap-2 cursor-pointer"
           >
             <CalendarIcon className="size-4 text-muted-foreground" />
             {selectedMonthDate.toLocaleDateString("default", {
@@ -137,6 +138,7 @@ export function MonthPicker({
           onMonthChange(monthKey(addMonths(selectedMonthDate, +1)))
         }
         aria-label="Next Month"
+        className="cursor-pointer"
       >
         <ChevronRight className="size-4" />
       </Button>

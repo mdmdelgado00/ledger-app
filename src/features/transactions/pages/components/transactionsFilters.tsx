@@ -1,10 +1,28 @@
-import { useState } from "react";
-import { MonthPicker, monthKey } from "./monthPicker";
-export function TransactionTopFilters() {
-  const [selected, setSelected] = useState(monthKey(new Date()));
+import type { TransactionFilterState } from "@features/transactions/types";
+import { dummyCategories } from "@features/transactions/types";
+import CategoriesFilter from "./categoriesFilter";
+import { MonthPicker } from "./monthPicker";
+
+export function TransactionTopFilters({
+  filters,
+  setFilters,
+}: {
+  filters: TransactionFilterState;
+  setFilters: (filters: TransactionFilterState) => void;
+}) {
   return (
     <div className="flex gap-2">
-      <MonthPicker selectedMonth={selected} onMonthChange={setSelected} />
+      <MonthPicker
+        selectedMonth={filters.month}
+        onMonthChange={(month) => setFilters((prev) => ({ ...prev, month }))}
+      />
+      <CategoriesFilter
+        categorieIds={filters.categoryIds}
+        onChange={(categoryIds) =>
+          setFilters((prev) => ({ ...prev, categoryIds }))
+        }
+        categories={dummyCategories}
+      />
     </div>
   );
 }
