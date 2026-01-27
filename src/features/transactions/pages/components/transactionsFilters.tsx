@@ -1,5 +1,5 @@
 import type { TransactionFilterState } from "@features/transactions/types";
-import { dummyCategories } from "@features/transactions/types";
+import type { Dispatch, SetStateAction } from "react";
 import CategoriesFilter from "./categoriesFilter";
 import { MonthPicker } from "./monthPicker";
 import SearchFilter from "./searchFilter";
@@ -9,7 +9,7 @@ export function TransactionTopFilters({
   setFilters,
 }: {
   filters: TransactionFilterState;
-  setFilters: (filters: TransactionFilterState) => void;
+  setFilters: Dispatch<SetStateAction<TransactionFilterState>>;
 }) {
   return (
     <div className="flex gap-2">
@@ -18,11 +18,11 @@ export function TransactionTopFilters({
         onMonthChange={(month) => setFilters((prev) => ({ ...prev, month }))}
       />
       <CategoriesFilter
-        categorieIds={filters.categoryIds}
+        categoryIds={filters.categoryIds}
         onChange={(categoryIds) =>
           setFilters((prev) => ({ ...prev, categoryIds }))
         }
-        categories={dummyCategories}
+        categories={[]}
       />
       <SearchFilter
         value={filters.searchQuery || ""}

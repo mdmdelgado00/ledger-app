@@ -18,27 +18,24 @@ import { useMemo } from "react";
 import type { Category } from "../../types";
 
 type Props = {
-  categorieIds: string[];
-  onChange: (categorieIds: string[]) => void;
+  categoryIds: string[];
+  onChange: (categoryIds: string[]) => void;
   categories: Category[];
 };
 
 export default function CategoriesFilter({
-  categorieIds,
+  categoryIds,
   onChange,
   categories,
 }: Props) {
-  const selectedCategories = useMemo(
-    () => new Set(categorieIds),
-    [categorieIds],
-  );
-  const count = categorieIds.length;
+  const selectedCategories = useMemo(() => new Set(categoryIds), [categoryIds]);
+  const count = categoryIds.length;
 
   const label =
     count === 0
       ? "All Categories"
       : count === 1
-        ? (categories.find((c) => c.id === categorieIds[0])?.name ??
+        ? (categories.find((c) => c.id === categoryIds[0])?.name ??
           "1 category")
         : `${count} Categories`;
 
@@ -97,36 +94,42 @@ export default function CategoriesFilter({
             <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
               No results found.
             </CommandEmpty>
-            <CommandGroup heading="Favorites">
-              {favorites.map((category) => (
-                <CategoryItem
-                  key={category.id}
-                  category={category}
-                  checked={selectedCategories.has(category.id)}
-                  onToggle={() => toggle(category.id)}
-                />
-              ))}
-            </CommandGroup>
-            <CommandGroup heading="Income">
-              {income.map((category) => (
-                <CategoryItem
-                  key={category.id}
-                  category={category}
-                  checked={selectedCategories.has(category.id)}
-                  onToggle={() => toggle(category.id)}
-                />
-              ))}
-            </CommandGroup>
-            <CommandGroup heading="Expense">
-              {expense.map((category) => (
-                <CategoryItem
-                  key={category.id}
-                  category={category}
-                  checked={selectedCategories.has(category.id)}
-                  onToggle={() => toggle(category.id)}
-                />
-              ))}
-            </CommandGroup>
+            {favorites.length > 0 && (
+              <CommandGroup heading="Favorites">
+                {favorites.map((category) => (
+                  <CategoryItem
+                    key={category.id}
+                    category={category}
+                    checked={selectedCategories.has(category.id)}
+                    onToggle={() => toggle(category.id)}
+                  />
+                ))}
+              </CommandGroup>
+            )}
+            {income.length > 0 && (
+              <CommandGroup heading="Income">
+                {income.map((category) => (
+                  <CategoryItem
+                    key={category.id}
+                    category={category}
+                    checked={selectedCategories.has(category.id)}
+                    onToggle={() => toggle(category.id)}
+                  />
+                ))}
+              </CommandGroup>
+            )}
+            {expense.length > 0 && (
+              <CommandGroup heading="Expense">
+                {expense.map((category) => (
+                  <CategoryItem
+                    key={category.id}
+                    category={category}
+                    checked={selectedCategories.has(category.id)}
+                    onToggle={() => toggle(category.id)}
+                  />
+                ))}
+              </CommandGroup>
+            )}
           </CommandList>
         </Command>
       </PopoverContent>
@@ -145,19 +148,20 @@ function CategoryItem({
 }) {
   return (
     <CommandItem
-      onSelect={(e) => {
+      onSelect={() => {
         onToggle();
       }}
     >
       <Checkbox
         checked={checked}
         onCheckedChange={onToggle}
+        onClick={(e) => e.stopPropagation()}
         className="
-    bg-transparent
-    data-[state=checked]:bg-transparent
-    data-[state=checked]:text-primary
-    data-[state=checked]:border-primary
-  "
+          bg-transparent
+          data-[state=checked]:bg-transparent
+          data-[state=checked]:text-primary
+          data-[state=checked]:border-primary
+        "
       />
       <span className="ml-2">{category.name}</span>
     </CommandItem>
