@@ -1,17 +1,25 @@
-import type { TransactionFilterState } from "@features/transactions/types";
+import type { TransactionFilterState } from "@features/transactions/lib/types";
 import { useState } from "react";
-import { monthKey } from "./components/monthPicker";
-import { TransactionTopFilters } from "./components/transactionsFilters";
+import { transactionColumns } from "../lib/columns";
+import { monthKey } from "../lib/utils";
+import { DataTable } from "./components/data-table";
+import {
+  TransactionBottomFilters,
+  TransactionTopFilters,
+} from "./components/transactionsFilters";
 
 export default function TransactionPage() {
   const [filters, setFilters] = useState<TransactionFilterState>({
     month: monthKey(new Date()),
     categoryIds: [],
     searchQuery: "",
+    showIncome: true,
+    showExpenses: true,
+    range: "month",
   });
   return (
     <>
-      <div className="p-4 mr-10 flex flex-col gap-4">
+      <div className="p-4 mr-10 flex flex-col gap-4 max-w-7xl mx-auto">
         <h1 className="text-3xl font-semibold">Transactions</h1>
         {/*Filter top row */}
         <TransactionTopFilters filters={filters} setFilters={setFilters} />
@@ -30,22 +38,8 @@ export default function TransactionPage() {
             <p className="text-lg font-semibold text-blue-600">$1,800.00</p>
           </div>
         </div>
-        <div className="flex flex-col items-center gap-2">
-          {filters.categoryIds.length > 0 ? (
-            <div>
-              <h3 className="font-medium">Filtered Categories:</h3>
-              <ul className="list-disc list-inside">
-                {filters.categoryIds.map((catId) => (
-                  <li key={catId}>{catId}</li>
-                ))}
-              </ul>
-            </div>
-          ) : (
-            <p>No category filter applied.</p>
-          )}
-        </div>
-        {filters.month}
-        {filters.searchQuery}
+        <TransactionBottomFilters filters={filters} setFilters={setFilters} />
+        <DataTable columns={transactionColumns} data={[]} />
       </div>
     </>
   );
