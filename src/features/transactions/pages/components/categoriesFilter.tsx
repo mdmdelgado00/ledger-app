@@ -15,7 +15,7 @@ import {
 } from "@components/ui/popover";
 import { ChevronDown, Tag } from "lucide-react";
 import { useMemo } from "react";
-import type { Category } from "../../types";
+import type { Category } from "../../lib/types";
 
 type Props = {
   categoryIds: string[];

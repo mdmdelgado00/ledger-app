@@ -10,17 +10,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useMemo } from "react";
-
-export function monthKey(date: Date) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  return `${y}-${m}`;
-}
-
-export function monthKeyToDate(monthKey: string) {
-  const [year, month] = monthKey.split("-").map(Number);
-  return new Date(year, (month ?? 1) - 1, 1);
-}
+import { monthKey, monthKeyToDate } from "../../lib/utils";
 
 function addMonths(date: Date, months: number) {
   const d = new Date(date);
@@ -35,6 +25,7 @@ type Props = {
   selectedMonth: string;
   onMonthChange: (next: string) => void;
   yearRange?: { from: number; to: number };
+  disabled?: boolean;
 };
 
 export function MonthPicker({
@@ -44,6 +35,7 @@ export function MonthPicker({
     from: new Date().getFullYear() - 10,
     to: new Date().getFullYear(),
   },
+  disabled = false,
 }: Props) {
   const selectedMonthDate = useMemo(
     () => monthKeyToDate(selectedMonth),
@@ -70,6 +62,7 @@ export function MonthPicker({
         }
         aria-label="Previous Month"
         className="cursor-pointer"
+        disabled={disabled}
       >
         <ChevronLeft className="size-4" />
       </Button>
@@ -79,6 +72,7 @@ export function MonthPicker({
             type="button"
             variant="outline"
             className="min-w-30 justify-start gap-2 cursor-pointer"
+            disabled={disabled}
           >
             <CalendarIcon className="size-4 text-muted-foreground" />
             {selectedMonthDate.toLocaleDateString("default", {
@@ -139,6 +133,7 @@ export function MonthPicker({
         }
         aria-label="Next Month"
         className="cursor-pointer"
+        disabled={disabled}
       >
         <ChevronRight className="size-4" />
       </Button>
