@@ -1,12 +1,14 @@
 import type { TransactionFilterState } from "@features/transactions/lib/types";
 import { useState } from "react";
+import { DataTable } from "../../../components/ui/data-table";
 import { transactionColumns } from "../lib/columns";
 import { monthKey } from "../lib/utils";
-import { DataTable } from "./components/data-table";
 import {
   TransactionBottomFilters,
   TransactionTopFilters,
 } from "./components/transactionsFilters";
+
+import { dummyTransactions } from "../mock/transactions";
 
 export default function TransactionPage() {
   const [filters, setFilters] = useState<TransactionFilterState>({
@@ -17,6 +19,8 @@ export default function TransactionPage() {
     showExpenses: true,
     range: "month",
   });
+  const [currentRows, setCurrentRows] = useState(0);
+  const [totalRows, setTotalRows] = useState(0);
   return (
     <>
       <div className="p-4 mr-10 flex flex-col gap-4 max-w-7xl mx-auto">
@@ -38,8 +42,18 @@ export default function TransactionPage() {
             <p className="text-lg font-semibold text-blue-600">$1,800.00</p>
           </div>
         </div>
-        <TransactionBottomFilters filters={filters} setFilters={setFilters} />
-        <DataTable columns={transactionColumns} data={[]} />
+        <TransactionBottomFilters
+          filters={filters}
+          setFilters={setFilters}
+          filtered={currentRows}
+          total={totalRows}
+        />
+        <DataTable
+          columns={transactionColumns}
+          data={dummyTransactions}
+          setCurrentRows={setCurrentRows}
+          setTotalRows={setTotalRows}
+        />
       </div>
     </>
   );

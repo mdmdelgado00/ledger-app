@@ -3,11 +3,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Ellipsis } from "lucide-react";
+import { Edit, Ellipsis, Trash } from "lucide-react";
 import type { Transaction } from "./types";
 
 export const transactionColumns: ColumnDef<Transaction>[] = [
@@ -36,15 +35,19 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="size-8 p-0">
+            <Button variant="ghost" className="size-8 p-0 cursor-pointer">
               <Ellipsis className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Duplicate</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem className="flex items-center gap-2">
+              <Edit />
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive hover:bg-destructive/10 flex items-center gap-2">
+              <Trash className="text-destructive" />
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
