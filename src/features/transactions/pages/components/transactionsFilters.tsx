@@ -41,9 +41,13 @@ export function TransactionTopFilters({
 export function TransactionBottomFilters({
   filters,
   setFilters,
+  filtered = 0,
+  total = 0,
 }: {
   filters: TransactionFilterState;
   setFilters: Dispatch<SetStateAction<TransactionFilterState>>;
+  filtered?: number;
+  total?: number;
 }) {
   const visibilityValue = [
     filters.showIncome ? "income" : null,
@@ -140,7 +144,9 @@ export function TransactionBottomFilters({
           <RefreshCcw className="size-4" />
           Reset Filters
         </Button>
-        <span className="text-sm">Showing 1-50 of 200 records</span>
+        <span className="text-sm">
+          Showing {filtered} of {total} records
+        </span>
       </div>
     </div>
   );
