@@ -12,10 +12,10 @@ type range = "month" | "week" | "day" | "past7";
 export type TransactionFilterState = {
   month: string;
   categoryIds: string[];
-  searchQuery?: string;
-  showIncome?: boolean;
-  showExpenses?: boolean;
-  range?: range;
+  searchQuery: string;
+  showIncome: boolean;
+  showExpenses: boolean;
+  range: range;
 };
 
 export type Transaction = {
