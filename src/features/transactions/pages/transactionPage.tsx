@@ -21,6 +21,7 @@ export default function TransactionPage() {
   });
   const [currentRows, setCurrentRows] = useState(0);
   const [totalRows, setTotalRows] = useState(0);
+
   return (
     <>
       <div className="p-4 mr-10 flex flex-col gap-4 max-w-7xl mx-auto">
