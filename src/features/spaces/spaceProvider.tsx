@@ -1,6 +1,6 @@
 import { supabase } from "@lib/dbConnection";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 
 type Space = {
   id: string | null;
@@ -80,7 +80,7 @@ export function SpaceProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useSpace() {
-  const context = React.useContext(SpaceContext);
+  const context = useContext(SpaceContext);
   if (!context) {
     throw new Error("useSpace must be used within a SpaceProvider");
   }
