@@ -1,6 +1,7 @@
 import { Bell } from "lucide-react";
 import { AddButton } from "./components/addButton";
-import { ProfileButton } from "./components/profileButton";
+import { ProfileButton } from "./components/profileDropdown";
+import { SpacesDropdown } from "./components/spacesDropdown";
 
 export function Header() {
   return (
@@ -25,6 +26,9 @@ export function Header() {
           <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
             Ledger
           </h1>
+        </div>
+        <div className="ml-6">
+          <SpacesDropdown />
         </div>
       </div>
       <div className="flex">
