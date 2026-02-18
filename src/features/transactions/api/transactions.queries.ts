@@ -3,12 +3,12 @@ import type { TransactionFilterState } from "../lib/types";
 import { fetchTransactions } from "./fetchTransactions";
 
 export function useTransactionsQuery(args: {
-  spaceId: string;
+  spaceId: string | null;
   filters: TransactionFilterState;
   pageIndex: number;
   pageSize: number;
 }) {
-  const { spaceId, filters, pageIndex, pageSize } = args;
+  const { spaceId, filters, pageIndex, pageSize, enabled = true } = args;
 
   return useQuery({
     queryKey: [
@@ -23,7 +23,9 @@ export function useTransactionsQuery(args: {
       pageIndex,
       pageSize,
     ],
-    queryFn: () => fetchTransactions({ spaceId, filters, pageIndex, pageSize }),
+    queryFn: () =>
+      fetchTransactions({ spaceId: spaceId!, filters, pageIndex, pageSize }),
     staleTime: 10_000,
+    enabled: enabled && !!spaceId,
   });
 }

@@ -4,12 +4,12 @@ import { getTransactionsDateRange } from "../lib/utils";
 
 type EntryRow = {
   id: string;
-  ocurred_on: string;
+  occurred_on: string;
   description: string | null;
   kind: "income" | "expense";
   amount_minor: number | string;
   category_id: string | null;
-  account: { currency: string | null } | null;
+  account: { currency: string | null };
 };
 
 export type FetchTransactionArgs = {
@@ -41,13 +41,14 @@ export async function fetchTransactions({
   let query = supabase
     .from("entries")
     .select(
-      "id, ocurred_on, description, kind, amount_minor, category_id, account:accounts!entries_account_id_fkey(currency)",
+      "id, occurred_on, description, kind, amount_minor, category_id, account:accounts!entries_account_id_fkey(currency)",
       { count: "exact" },
     )
+
     .eq("space_id", spaceId)
-    .gte("ocurred_on", start)
-    .lte("ocurred_on", end)
-    .order("occured_on", { ascending: false })
+    .gte("occurred_on", start)
+    .lte("occurred_on", end)
+    .order("occurred_on", { ascending: false })
     .order("created_at", { ascending: false })
     .range(from, to);
 
@@ -75,11 +76,11 @@ export async function fetchTransactions({
 
     return {
       id: r.id,
-      date: r.ocurred_on,
+      date: r.occurred_on,
       description: r.description ?? "",
       categoryId: r.category_id ?? "",
       amount: signedMinor / 100,
-      currency: r.account?.[0].currency ?? "USD",
+      currency: r.account?.currency ?? "USD",
     };
   });
 
